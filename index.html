@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>METU Urban Energy Transition and Sustainability Lab</title>
+  <style>
+    /* ---------------------------------------------
+       TEMEL SIFIRLAMA ve BODY AYARLARI
+       --------------------------------------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #e6e6e6;
+      background-color: #ab2c2c; /* Koyu kırmızı arka plan */
+    }
+
+    /* ---------------------------------------------
+       HEADER ve NAVİGASYON
+       --------------------------------------------- */
+    header {
+      background-color: #ffffff;
+      border-bottom: 1px solid #ddd;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+    nav ul li a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #555;
+      transition: color 0.2s ease-in-out;
+    }
+    nav ul li a:hover {
+      color: #000;
+    }
+
+    /* ---------------------------------------------
+       MAIN KAPSAYICI (İÇERİK ALANI)
+       --------------------------------------------- */
+    main {
+      max-width: 1440px;
+      margin: 2rem auto;
+      padding: 0 0.5rem; /* Yatay padding biraz azaltıldı */
+      display: flex;
+      flex-direction: column;
+      gap: 2rem; /* Bölümler arası boşluk */
+    }
+
+    /* ---------------------------------------------
+       BEYAZ KUTU STİLİ
+       --------------------------------------------- */
+    .section-white {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 1rem; /* İç padding arttırıldı */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      color: #333; /* Beyaz zemin üzerinde koyu metin */
+    }
+
+    /* ---------------------------------------------
+       ÜSTTE YATAY PANORAMA GÖRSEL
+       --------------------------------------------- */
+    .hero-image {
+      width: 100%;
+      height: 250px; /* Tam 250px yüksekliğinde */
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ---------------------------------------------
+       ALT KISIM: İKİ SÜTUNLU DÜZEN (About + Team)
+       --------------------------------------------- */
+    .row-two {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap; /* Küçük ekranlarda alt alta dizilsin */
+    }
+    /* Sol sütun: Hakkımızda Metni (About The Projects) */
+    .project-desc {
+      flex: 2; /* Sağ sütuna göre genişlik oranı */
+      padding-left: 1rem; /* Metni sola yakınlaştırmak için ekstra padding */
+    }
+    .project-desc h2 {
+      display: inline-block;         /* Başlığın boyutunun yalnızca metne göre ayarlanması için */
+      background-color: #ffffff;     /* Arka plan rengi */
+      color: #1a1a1a;                /* Metin rengi */
+      padding: 1rem 0.5rem;          /* Başlık metni etrafında boşluk */
+      border-radius: 4px;            /* Köşe yarıçapı */
+      font-size: 1.75rem;            /* Başlık boyutu */
+      margin-bottom: 0.5rem;         /* Altındaki içeriğe boşluk bırakmak için */
+      letter-spacing: 2px;           /* Harfler arası boşluk */
+      border-bottom: 2px solid #1a1a1a; /* ALT SATIRA SOLID ÇİZGİ EKLEME */
+      padding-bottom: 0.25rem;       /* Çizgi ile metin arası boşluk */
+    }
+    .project-desc h3 {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    .project-desc p {
+      font-size: 1rem;
+      color: #444;
+      text-align: justify;
+      line-height: 1.6;
+    }
+
+    /* ---------------------------------------------
+       Sağ sütun: Team Members alanı (10 elemanı ızgara halinde)
+       --------------------------------------------- */
+    .team-members-container {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(80px, 1fr));
+      gap: 0.3rem;  /* Kartlar arasındaki boşluk azaltıldı */
+    }
+    .team-member-item {
+      background-color: #f9f9f9;
+      border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: row; /* Avatar ve metin yan yana */
+      align-items: center;
+      gap: 0.3rem;         /* Kart içindeki öğeler arasındaki boşluk azaltıldı */
+      padding: 0.3rem;     /* İç boşluk küçültüldü */
+      min-height: 60px;    /* İçeriğe göre esnek */
+      white-space: normal;
+      word-break: break-word;
+      border: 1px solid #ccc; /* Düz çerçeve ekledik */
+    }
+    .team-member-item img {
+      width: 50px; /* Avatar boyutu küçültüldü */
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .team-member-item .member-info {
+      display: flex;
+      flex-direction: column;
+      padding-right: 0.3rem; /* Metnin sağ tarafına boşluk ekledim */
+    }
+    .team-member-item .member-info h4 {
+      font-size: 0.85rem;   /* Başlık küçültüldü */
+      color: #1a1a1a;
+      margin-bottom: 0.2rem;
+    }
+    .team-member-item .member-info p {
+      font-size: 0.75rem;   /* Açıklama metni küçültüldü */
+      color: #555;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    /* ————————————— GLOBAL & TURKEY OVERVIEW İÇİN İKİ SÜTUNLU FLEX DÜZEN ————————————— */
+    .overview-container {
+      display: flex;
+      gap: 2rem;               /* Sol ve sağ kolon arasındaki boşluk */
+      align-items: flex-start; /* Üstten hizalama */
+    }
+    /* SOL SÜTUN (Metinler) */
+    .overview-text {
+      flex: 1;
+      text-align: left;
+    }
+    .overview-text h2 {
+      display: inline-block;           /* Başlık yalnızca metin genişliği kadar alan kaplasın */
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: 0.25rem;         /* Çizgi ile metin arası boşluk */
+      color: #1a1a1a;
+      border-bottom: 2px solid #1a1a1a;/* Sadece yazının altında bir çizgi */
+    }
+    .overview-text p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #555555;
+      margin-bottom: 1rem;
+    }
+    /* SAĞ SÜTUN: Our Concept Başlığı ve Kart Konteyneri */
+    .overview-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .overview-right h3 {
+      display: inline-block;           /* Yine yalnızca metin genişliği kadar */
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: 0.25rem;
+      color: #1a1a1a;
+      border-bottom: 2px solid #1a1a1a;
+    }
+    /* Açılır/Kapanır Kartları İçeren Konteyner (Dikey Flex) */
+    .overview-sketches {
+      display: flex;
+      flex-direction: column;  /* Kartları üst üste dizer */
+      gap: 1rem;               /* Kartlar arası dikey boşluk */
+    }
+    /* Her bir Açılır/Kapanır Kart (sketch-card) */
+    .sketch-card {
+      background-color: #fafafa;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      transition: box-shadow 0.2s ease;
+    }
+    /* Insulation kartını biraz daha aşağı çekmek için ekstra boşluk */
+    .insulation-card {
+      margin-top: 1.5rem;     /* İstediğiniz kadar artırabilirsiniz */
+    }
+    /* <summary> elementi: kart başlığı */
+    .sketch-card summary {
+      list-style: none;                 /* Tarayıcı varsayılan oku kaldır */
+      cursor: pointer;                  /* Üzerine gelince işaretçi değişsin */
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #1a1a1a;
+      padding: 0.5rem 0;
+      position: relative;
+      display: flex;                    /* İkon ve metni yatayda hizalamak için */
+      align-items: center;
+      gap: 0.5rem;                      /* İkon ile metin arasındaki boşluk */
+    }
+    /* Summary ok işaretini gizle ve kendi ok tasarımımızı ekle */
+    .sketch-card summary::-webkit-details-marker {
+      display: none;
+    }
+    .sketch-card summary::after {
+      content: "▸";                     /* Kapalı durum için ok → sağa bakan */
+      position: absolute;
+      right: 0;
+      font-size: 1rem;
+      transition: transform 0.2s ease;
+    }
+    /* Kart açıldığında ok aşağı baksın */
+    .sketch-card[open] summary::after {
+      transform: rotate(90deg);         /* Aşağı bakan ok */
+    }
+    /* İkonun boyutunu standardize edelim */
+    .sketch-card summary .summary-icon {
+      width: 20px;   /* İstediğiniz boyuta göre ayarlayın */
+      height: 20px;
+      object-fit: contain;
+      flex-shrink: 0; /* Metin daralsa bile ikon küçülmesin */
+    }
+    /* Kart içeriği: resim ve açıklama */
+    .sketch-content {
+      margin-top: 0.75rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid #ddd;
+      display: none;                    /* Başlangıçta gizli */
+    }
+    /* Kart open olduğunda içeriği göster */
+    .sketch-card[open] .sketch-content {
+      display: block;
+    }
+    /* Kart içindeki görsel */
+    .sketch-content img {
+      width: 100%;
+      max-width: 240px;                 /* Kartın geneline uygun boyut */
+      height: auto;
+      object-fit: contain;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+      border: 1px solid #cccccc;
+    }
+    /* Kart içindeki açıklama metni ve liste */
+    .sketch-content p {
+      font-size: 0.95rem;
+      color: #444444;
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+    }
+    .sketch-content p ul {
+      margin-left: 1rem;
+    }
+    .sketch-content p ul li {
+      margin-bottom: 0.25rem;
+    }
+    /* Hover efekti: fareyle üstüne gelince gölge artış */
+    .sketch-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+    /* Responsive – Mobilde tek kolon olacak şekilde ayar */
+    @media (max-width: 768px) {
+      .overview-container {
+        flex-direction: column;
+      }
+      .overview-text,
+      .overview-right {
+        width: 100%;
+      }
+      .overview-right h3 {
+        margin-top: 1.5rem;
+      }
+      .overview-sketches {
+        gap: 1rem;
+      }
+      .sketch-card,
+      .insulation-card {
+        margin-top: 0;  /* Mobilde boşluk azaltılabilir */
+      }
+    }
+
+
+    /* ---------------------------------------------
+       Pilot Area & Explore Our Latest Work (Tek Kutuda)
+       --------------------------------------------- */
+    .combined-area h2 {
+      display: inline-block;
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: 0.25rem;
+      color: #1a1a1a;
+      border-bottom: 2px solid #1a1a1a;
+    }
+
+    /* 1) .pilot-area: Başlığı ve pilot-content bloğunu dikey yerleştiren container */
+    .pilot-area {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem; /* Başlık ile pilot-content arası boşluk */
+    }
+
+    /* 1.a) “Pilot Area” başlığı tek satır kaplasın */
+    .pilot-area h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 5; /* Varsayılan üst/alt boşlukları kaldıralım */
+      margin-left: 5px;
+    }
+
+    /* 2) .pilot-content: Görsel ve paragrafı yan yana %50/%50 yapacak container */
+    .pilot-content {
+      display: flex;
+      align-items: flex-start; /* Üst kenarları hizala */
+      gap: 1rem;               /* Görsel - metin arası yatay boşluk */
+      flex-wrap: nowrap;         /* Dar ekranlarda alt alta geçiş */
+    }
+
+    /* 2.a) Görsel solda %50 genişlik alsın */
+    .pilot-content img {
+      flex: 0 0 45%;
+      max-width: 47%;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      object-fit: cover;
+      margin: 0;
+    }
+
+    /* 2.b) Metin paragrafı sağda %47 genişlik alsın,
+   soldaki görsele biraz ofsetli, etrafı kesikli çerçeveli olsun */
+.pilot-content p {
+  flex: 0 0 47%;
+  max-width: 47%;
+  
+  /* Yazı stili */
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+  
+  /* Görselden biraz boşluk bırakmak için sola margin */
+  margin-left: 40px;
+  
+  /* Kenarlık: 2px kalınlığında, #a85252 renginde, kesikli */
+  border: 2px dashed #a85252;
+  border-radius: 8px;  /* Köşeleri yuvarlatmak için */
+  
+  /* İçerik ile kenarlık arasına padding */
+  padding: 1rem;
+  
+  /* Biraz üstten boşluk eklemek isterseniz (opsiyonel) */
+  margin-top: 10px;
+}
+
+
+
+    /* 3) Responsive—768px altı: .pilot-content alt alta geçiş yapsın */
+    @media (max-width: 768px) {
+      .pilot-content {
+        flex-direction: column;
+      }
+      .pilot-content img,
+      .pilot-content p {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+      .pilot-content img {
+        margin-bottom: 1rem; /* Mobilde görsel altına boşluk */
+      }
+    }
+
+    /* ---------------------------------------------
+       “Explore Our Latest Work” kısmı (Sizin orijinal düzen)
+       --------------------------------------------- */
+    .explore-right {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .icons-section {
+      flex: 1;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+    .icon-box {
+      background-color: #f7f7f7;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      width: 50%;
+      max-width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+    .icon-box h3 {
+      margin-bottom: 1rem;
+      font-size: 1.0rem;
+      color: #1a1a1a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid #ab2c2c;
+      padding-bottom: 0.25rem;
+      width: 100%;
+      text-align: center;
+    }
+    .icon-box .icons-column {
+      display: grid;
+      grid-template-rows: repeat(2, auto);
+      gap: 1rem;
+      width: 100%;
+    }
+    .icon-box .icons-column a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .icon-box .icons-column img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+      transition: transform 0.2s ease-in-out;
+    }
+    .icon-box .icons-column img:hover {
+      transform: scale(1.05);
+      border-color: #a85252;
+    }
+    .text-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .text-section p {
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .text-section ul {
+      list-style: disc inside;
+      margin-left: 1rem;
+      margin-bottom: 1rem;
+    }
+    .text-section ul li {
+      margin-bottom: 0.5rem;
+    }
+    /* Explore sağ-metin kolonu mobilde alt alta geçiş */
+    @media (max-width: 768px) {
+      .explore-right {
+        flex-direction: column;
+      }
+      .icons-section {
+        flex-direction: column;
+        align-items: center;
+      }
+      .icon-box {
+        max-width: 80%;
+        margin-bottom: 1rem;
+      }
+    }
+
+    /* ---------------------------------------------
+       PUBLICATIONS BÖLÜMÜ
+       --------------------------------------------- */
+    .publications {
+      padding: 1rem 1rem;
+    }
+    .publications h2 {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+      margin-left: 0.5rem; /* Sol kenara biraz yakınlaştırdım */
+      color: #1a1a1a;
+      letter-spacing: 1px;
+      border-bottom: 2px solid #1a1a1a; /* ALT SATIRA SOLID ÇİZGİ EKLEME */
+    }
+    .publications ul {
+      list-style: disc inside;
+      margin-left: 1.5rem; /* Metin girintisi */
+      margin-bottom: 1rem;
+    }
+    .publications ul li {
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+      color: #444;
+      line-height: 1.4;
+    }
+
+    /* ---------------------------------------------
+       FOOTER
+       --------------------------------------------- */
+    footer {
+      background-color: #f2f2f2;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 2rem;
+    }
+
+    /* ————————————— Dashed Border Animasyonu ————————————— */
+.icon-box.highlight {
+  position: relative;            /* Kutunun konumunun göreli olması gerekir */
+  border: 3px dashed #ab2c2c;    /* 3px kalınlığında kırmızı kesikli kenar */
+  border-radius: 8px;            /* Mevcut .icon-box ile aynı border-radius */
+  animation: dash-animation 3s linear infinite;
+}
+
+/* Anahtar kare animasyonu: kesikli çerçevenin rengini ve gölgesini değiştirir */
+@keyframes dash-animation {
+  0% {
+    border-color: #ab2c2c;       /* Başlangıçta tam kırmızı kesikli çerçeve */
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  50% {
+    border-color: transparent;   /* Orta noktada border kaybolur */
+    box-shadow: 0 0 8px 2px rgba(171, 44, 44, 0.4);
+  }
+  100% {
+    border-color: #ab2c2c;       /* Tekrar tam kırmızı kesikli çerçeve */
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+  </style>
+</head>
+<body>
+  
+  <!-- ========= HEADER ve NAVİGASYON ========= -->
+  <header>
+    <h1>METU Urban Energy Transition and Sustainability Lab</h1>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <!-- ========= ANA İÇERİK ========= -->
+  <main>
+    
+    <!-- ————————————— ÜSTTE YATAY GÖRSEL ————————————— -->
+    <div class="section-white">
+      <div class="hero-image">
+        <img 
+          src="C:/Users/Up203/OneDrive/Masaüstü/website/images/anaresim.png" 
+          alt="Hero Banner" 
+        />
+      </div>
+    </div>
+    <!-- /.hero-image -->
+    
+    <!-- ————————————— ALT KISIM: İKİ SÜTUN ————————————— -->
+    <div class="section-white row-two">
+      
+      <!-- Sol sütun: About The Projects -->
+      <div class="project-desc">
+        <h2>About The Projects</h2>
+        
+        <!-- UP2030 Açıklaması -->
+        <h3>UP2030</h3>
+        <p>
+          The UP2030 project, funded by the Horizon Innovation Actions under Horizon Europe with a timeframe spanning from 2023 to 2026, aims to support cities in driving the socio-technical transitions required to meet their climate neutrality targets by leveraging urban planning and design. The project da aims to assist and advise city stakeholders ve local authorities in integrating neutrality into their agendas through everyday actions ve strategic decisions, utilizing an innovative methodology. Our research group at METU will develop ‘AI powered toolset for the decarbonisation of buildings ve transportation’ which is called as ‘UBEM/UBTEM: Urban Building/Transportation Energy Modeling’. The developed tool is based on holistic approach that considers the integration of building energy performances, renewable energy integration, ve micro-mobility. The developed tool facilitates comprehensive decision-making in achieving carbon-neutral urban transformation by comprehensively addressing buildings, renewable energy, ve micro-mobility at the urban scale, considering the impact of climate change, ve retrofit strategies.
+        </p>
+        
+        <!-- UBEM Açıklaması -->
+        <h3>UBEM/UBTEM</h3>
+        <p>
+          The UBEM/UBTEM project at METU develops an AI‐powered toolkit for Urban Building and Transportation Energy Modeling. This holistic platform integrates building energy performance simulations, renewable energy integration, ve micro-mobility analytics. It enables city stakeholders to evaluate retrofit scenarios, optimize energy usage, ve plan decentralized renewable deployments, thereby accelerating the transition toward carbon‐neutral urban environments. The tool considers weather data, occupant behavior, ve real‐time trafik akışlarını destekleyerek sürdürülebilir bina ve ulaştırma tasarımında veri odaklı karar verme süreçlerini destekler.
+        </p>
+      </div>
+      
+      <!-- Sağ sütun: 10 Team Members -->
+      <div class="team-members-container">
+        <!-- 1. Üye -->
+        <div class="team-member-item">
+          <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/team/ipek_gursel_dino.jpeg" alt="Member 1" />
+          <div class="member-info">
+            <h4>Prof. Dr. İpek Gürsel Dino</h4>
+            <p>Academician, Architecture, Urban Energy Modeling</p>
+          </div>
+        </div>
+        <!-- 2. Üye -->
+        <div class="team-member-item">
+          <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/team/sinan_kalkan.jpg" alt="Member 2" />
+          <div class="member-info">
+            <h4>Prof. Dr. Sinan Kalkan</h4>
+            <p>Academician, Computer Engineering</p>
+          </div>
+        </div>
+        <!-- 3. Üye -->
+        <div class="team-member-item">
+          <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/team/murat_gol.png" alt="Member 3" />
+          <div class="member-info">
+            <h4>Prof. Dr. Murat Göl</h4>
+            <p>Academician, Electric and Electronic Engineering</p>
+          </div>
+        </div>
+        <!-- 4. Üye -->
+        <div class="team-member-item">
+          <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/team/ilkim_canli.jpg" alt="Member 4" />
+          <div class="member-info">
+            <h4>İlkim Canlı</h4>
+            <p>PhD Candidate, Günam, Architecture and Sustainability</p>
+          </div>
+        </div>
+        <!-- 5. Üye -->
+        <div class="team-member-item">
+          <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/team/cihat_ilkbahar.jpg" alt="Member 5" />
+          <div class="member-info">
+            <h4>Cihat İlkbahar</h4>
+            <p>Researcher, Architecture and Sustainability</p>
+          </div>
+        </div>
+        <!-- 6. Üye -->
+        <div class="team-member-item">
+          <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/team/fatma_ece_gursoy.jpeg" alt="Member 6" />
+          <div class="member-info">
+            <h4>Fatma Ece Gürsoy</h4>
+            <p>Researcher, Architecture and Sustainability</p>
+          </div>
+        </div>
+        <!-- 7. Üye -->
+        <div class="team-member-item">
+          <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/team/user.png" alt="Member 7" />
+          <div class="member-info">
+            <h4>Muhammed Bahadır Pehlivan</h4>
+            <p>Master Student, Architecture</p>
+          </div>
+        </div>
+        <!-- 8. Üye -->
+        <div class="team-member-item">
+          <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/team/user.png" alt="Member 8" />
+          <div class="member-info">
+            <h4>Melis Ceren Özdemir</h4>
+            <p>Master Student, Architecture</p>
+          </div>
+        </div>
+        <!-- 9. Üye -->
+        <div class="team-member-item">
+          <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/team/user.png" alt="Member 9" />
+          <div class="member-info">
+            <h4>Sena Nur Cabadağ</h4>
+            <p>Master Student, Architecture</p>
+          </div>
+        </div>
+        <!-- 10. Üye -->
+        <div class="team-member-item">
+          <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/team/user.png" alt="Member 10" />
+          <div class="member-info">
+            <h4>Dican Deniz Köse</h4>
+            <p>Master Student, Architecture</p>
+          </div>
+        </div>
+      </div>
+      <!-- /.team-members-container -->
+      
+    </div>
+    <!-- /.row-two -->
+
+    <!-- ————————————— GLOBAL & TURKEY OVERVIEW ————————————— -->
+    <div class="section-white context-section">
+      <div class="overview-container">
+      
+        <!-- SOL SÜTUN: Metinler -->
+        <div class="overview-text">
+          <h2>Overview</h2>
+          <p>
+            <strong>Worldwide:</strong> As energy consumption continues to rise, dependence on fossil fuels accelerates climate change. Our planet is inching past the 1.5 °C threshold, sea levels are rising, and extreme weather events are becoming more severe. In response, <em>renewable energy</em> systems (solar, wind, hydro, biomass, etc.), energy-efficiency measures, smart grids, ve Positive Energy Districts are moving to the forefront of the global policy agenda.
+          </p>
+          <p>
+            <strong>In Turkey:</strong> Energy demand—especially in buildings ve industry—has surged, with roughly 70 % of consumption still coming from fossil fuels. This both increases foreign energy dependency ve drives higher CO₂ emissions. While the 2023 Energy Efficiency Law ve çeşitli renewable energy incentives mark önemli steps forward, achieving carbon-neutrality targets for 2025–2030 requires more holistic solutions—such as urban renewal programs, positive-energy neighborhoods, green financing models, ve robust smart-grid infrastructure.
+          </p>
+        </div>
+      
+        <!-- SAĞ SÜTUN: “Our Concept” Başlığı ve Açılabilir Bilgi Kartları -->
+        <div class="overview-right">
+          <h3>Energy Efficienct Retrofitting Systems</h3>
+          <div class="overview-sketches">
+            
+            <!-- Kart 1: Insulation Installation -->
+            <details class="sketch-card insulation-card">
+              <summary>
+                <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/icons/material.png" alt="Insulation Icon" class="summary-icon" />
+                Insulation Installation
+              </summary>
+              <div class="sketch-content">
+                <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/diagrams/insulation.png" alt="Insulation Sketch" />
+                <p>
+                  On this 5-story pitched‐roof building, skilled installers use scaffoldings on each floor to fit high-performance insulation panels to the exterior walls. The diagram shows three installers on different levels: 
+                  <ul>
+                    <li>Top level: fixing insulation boards under the eaves.</li>
+                    <li>Middle level: securing brackets and screwing boards into place.</li>
+                    <li>Ground level: preparing panels ve applying adhesive.</li>
+                  </ul>
+                  This process reduces thermal transmittance (U-value) ve cuts heating energy losses by up to 40 %.
+                </p>
+              </div>
+            </details>
+
+            <!-- Kart 2: Heat Pump Installation -->
+            <details class="sketch-card">
+              <summary>
+                <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/icons/heatpump.png" alt="Heat Pump Icon" class="summary-icon" />
+                Heat Pump Installation
+              </summary>
+              <div class="sketch-content">
+                <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/diagrams/heatpump.png" alt="Heat Pump Sketch" />
+                <p>
+                  Technicians install a high-efficiency air-source heat pump on the side of the 5-story building. The scaffold allows three installers to work:
+                  <ul>
+                    <li>Top installer: secures the outdoor unit bracket at the attic level.</li>
+                    <li>Middle installer: connects refrigerant lines ve outdoor piping.</li>
+                    <li>Ground installer: mounts the indoor distribution manifold ve routes electrical connections.</li>
+                  </ul>
+                  The system uses R-32 refrigerant with COP &gt; 4.0, delivering four units of heat for every unit of consumed electric power.
+                </p>
+              </div>
+            </details>
+
+            <!-- Kart 3: Rooftop Solar Panels -->
+            <details class="sketch-card">
+              <summary>
+                <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/icons/solarpanel.png" alt="Solar Panel Icon" class="summary-icon" />
+                Rooftop Solar Panels
+              </summary>
+              <div class="sketch-content">
+                <img src="C:/Users/Up203/OneDrive/Masaüstü/website/images/diagrams/solarpanel.png" alt="Solar Panels Sketch" />
+                <p>
+                  On the pitched roof of this 5-story structure, a crew of four installers fix photovoltaic modules:
+                  <ul>
+                    <li>Roof edge support frames are anchored to rafters.</li>
+                    <li>Panels are mounted onto the rail system ve clamped securely.</li>
+                    <li>Cables are routed down to the on-roof inverter box.</li>
+                    <li>Inverter converts DC → AC, feeding surplus into the building’s mikro-grid.</li>
+                  </ul>
+                  The final system yields approximately 20 % of the building’s annual electricity demand from rooftop solar.
+                </p>
+              </div>
+            </details>
+            
+          </div>
+        </div>
+        <!-- /.overview-right -->
+        
+      </div>
+    </div>
+    <!-- /.context-section -->
+
+
+    <!-- ————————————— Pilot Area & Explore Our Latest Work (Tek Bir Beyaz Kutu) ————————————— -->
+    <div class="section-white combined-area">
+      <!-- Ortak Başlık -->
+      <h2>Explore Our Latest Work</h2>
+
+      <!-- 1) Pilot Area Bölümü -->
+      <div class="pilot-area">
+        <!-- 1.a) Başlık tek satır kaplayacak -->
+        <h3>Pilot Area</h3>
+
+        <!-- 1.b) Görsel ve metin, pilot-content içinde yan yana -->
+        <div class="pilot-content">
+          <img 
+            src="C:/Users/Up203/OneDrive/Masaüstü/website/images/latestwork.png" 
+            alt="Pilot Area Map" 
+          />
+          <p>
+            The pilot area comprises a densely built, mixed‐use neighborhood characterized by buildings ranging from three to eight stories, the majority of which were constructed before 2000 and currently lack any thermal insulation. This district includes a blend of residential units and small‐to‐medium‐scale offices, each with unique façade and roof geometries, materials, and orientations.  By integrating individual building envelope parameters (U‐values, thermal mass, and solar absorption coefficients) and roof characteristics (pitch, shading, and local azimuth), we developed a high‐resolution URBAN BUILDING ENERGY MODEL (UBEM) to simulate hourly heating and cooling loads, optimize retrofit strategies, and identify rooftop renewable opportunities. This detailed understanding of each building’s thermal envelope and roof design is essential for developing energy‐efficient interventions—such as targeted exterior insulation retrofits, customized heat pump placements on suitable façades, and modular solar panel arrays—to achieve cost‐effective, carbon‐neutral outcomes in this heterogeneous urban fabric.
+          </p>
+        </div>
+      </div>
+      <!-- /.pilot-area -->
+
+      <!-- 2) Explore Our Latest Work Bölümü (Orijinal Düzen) -->
+      <div class="explore-right">
+        <!-- İkonlar Kısmı -->
+        <div class="icons-section">
+          <!-- 1. SÜTUN (ENERGY USE) -->
+          <div class="icon-box highlight">
+            <h3>ENERGY USE</h3>
+            <div class="icons-column">
+              <a href="https://metu2.maps.arcgis.com/apps/dashboards/3c10d80dad6f41a8b3c95171a8746cfb">
+                <img src="images/icons/heating.png" alt="Heating" />
+              </a>
+              <a href="https://metu2.maps.arcgis.com/apps/dashboards/26c22e872d5f41c492affd0656b18f6e">
+                <img src="images/icons/cooling.png" alt="Cooling" />
+              </a>
+            </div>
+          </div>
+          <!-- 2. SÜTUN (ENVIRONMENTAL) -->
+          <div class="icon-box highlight">
+            <h3>ENVIRONMENTAL</h3>
+            <div class="icons-column">
+              <a href="https://metu2.maps.arcgis.com/apps/dashboards/9ace4b7f41b544ddbf8d367f3e4b374b">
+                <img src="images/icons/IOD.png" alt="IOD" />
+              </a>
+              <a href="scenario4.html">
+                <img src="images/icons/CO2.png" alt="CO₂" />
+              </a>
+            </div>
+          </div>
+          <!-- 3. SÜTUN (ECONOMICS) -->
+          <div class="icon-box highlight">
+            <h3>ECONOMICS</h3>
+            <div class="icons-column">
+              <a href="https://metu2.maps.arcgis.com/apps/dashboards/8fcb6e917214420ca079fbdd77440249">
+                <img src="images/icons/ABATE.png" alt="Abatement" />
+              </a>
+              <a href="https://metu2.maps.arcgis.com/apps/dashboards/488ed4c6b77049d383865d126362b5d2">
+                <img src="images/icons/ROI.png" alt="ROI" />
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- /.icons-section -->
+
+        <!-- Sağdaki Metin ve Maddeler -->
+        <div class="text-section">
+          <p>As the METU Urban Energy Transition and Sustainability Lab, we are conducting studies in the following areas:</p>
+          <ul>
+            <li>Energy Models at the City Scale (Development of UBEM/UBTEM)</li>
+            <li>Urban Planning and Carbon-Neutrality Strategies</li>
+            <li>Renewable Energy Integration</li>
+            <li>Energy Efficient Retrofitting Scenarios</li>
+            <li>Cost-Benefit Analysis and Optimization</li>
+            <li>Operational Carbon and Embodied Carbon Analysis</li>
+            <li>Artificial Intelligence Supported Decision Support Systems</li>
+          </ul>
+        </div>
+        <!-- /.text-section -->
+      </div>
+      <!-- /.explore-right -->
+    </div>
+    <!-- /.combined-area -->
+
+    <!-- ————————————— PUBLICATIONS BÖLÜMÜ ————————————— -->
+    <div id="publications" class="section-white publications">
+      <h2>Publications</h2>
+      <ul>
+        <li>
+          M. Han, I. Canli, J. Shah, X. Zhang, I. Dino, S. Kalkan, “Perspectives of machine learning and natural language processing on characterizing positive energy districts”, 
+          <em>Buildings</em>, 14(2), 371, 2024.
+        </li>
+        <li>
+          Halaçlı, E.G., Canlı, İ., İşeri, O.K., Yavuz, F., Akgül, Ç.M., Kalkan, S. and Dino, I.G., 2023, November. 
+          A Novel Graph Neural Network for Zone-Level Urban-Scale Building Energy Use Estimation. In <em>Proceedings of the 10th ACM International Conference on Systems for Energy-Efficient Buildings, Cities, and Transportation</em> (pp. 169-176).
+        </li>
+        <li>
+          Canlı, I., Kalkan, S. ve Gürsel Dino, İ., 2023. Useful Daylight Illuminance Prediction Under Data Imbalance in an Urban Context. 
+          In <em>Proceedings of the 41st eCAADe Conference</em>, Graz, Austria.
+        </li>
+        <li>
+          Duran, A., Işeri, O.K., Akgül, Ç., Kalkan, S. ve Gürsel Dino, İ., 2022. Compiling open datasets to improve urban building energy models with occupancy ve layout data. 
+          <em>POST-CARBON, Proceedings of the 27th International Conference of the Association for Computer-Aided Architectural Design Research in Asia (CAADRIA) 2022</em>, Volume 2, 669-678.
+        </li>
+      </ul>
+    </div>
+    <!-- /.publications -->
+
+  </main>
+  
+  <!-- ========= SAYFA ALT BİLGİSİ (FOOTER) ========= -->
+  <footer>
+    &copy; 2025 METU Urban Energy Transition and Sustainability Lab. All rights reserved.
+  </footer>
+
+  <!-- Tek Kart Açılınca Diğerlerini Kapatmak İçin JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const allSketchCards = document.querySelectorAll('.overview-sketches details');
+      allSketchCards.forEach(card => {
+        card.addEventListener('toggle', function() {
+          if (card.open) {
+            allSketchCards.forEach(otherCard => {
+              if (otherCard !== card) {
+                otherCard.open = false;
+              }
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
